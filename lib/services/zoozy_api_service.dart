@@ -11,7 +11,7 @@ class ZoozyApiService {
         _baseUrl = baseUrl ??
             const String.fromEnvironment(
               'ZOOZY_API_URL',
-              defaultValue: 'https://localhost:5001/api',
+              defaultValue: 'http://localhost:5001/api',
             );
 
   final http.Client _client;

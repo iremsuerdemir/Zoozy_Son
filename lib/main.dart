@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
       ],
 
       //   İlk açılan sayfa
-      home: OwnerLoginPage(),
+      home: LoginPage(),
       /*CaregiverProfilpage(
         displayName: "İrem Su Erdemir",
         userName: "iremsuerdemir",

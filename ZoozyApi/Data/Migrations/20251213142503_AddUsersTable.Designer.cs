@@ -9,11 +9,11 @@ using ZoozyApi.Data;
 
 #nullable disable
 
-namespace ZoozyApi.Migrations
+namespace ZoozyApi.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251117121511_AddNewColumn")]
-    partial class AddNewColumn
+    [Migration("20251213142503_AddUsersTable")]
+    partial class AddUsersTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,6 +225,56 @@ namespace ZoozyApi.Migrations
                     b.HasIndex("ServiceProviderId");
 
                     b.ToTable("ServiceRequests");
+                });
+
+            modelBuilder.Entity("ZoozyApi.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirebaseUid")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Provider")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("FirebaseUid")
+                        .IsUnique()
+                        .HasFilter("[FirebaseUid] IS NOT NULL");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ZoozyApi.Models.ServiceRequest", b =>

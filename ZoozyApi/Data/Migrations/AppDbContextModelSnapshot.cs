@@ -241,14 +241,18 @@ namespace ZoozyApi.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirebaseUid")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("FirebaseUid")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhotoUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Provider")
@@ -260,8 +264,12 @@ namespace ZoozyApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FirebaseUid")
+                    b.HasIndex("Email")
                         .IsUnique();
+
+                    b.HasIndex("FirebaseUid")
+                        .IsUnique()
+                        .HasFilter("[FirebaseUid] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
