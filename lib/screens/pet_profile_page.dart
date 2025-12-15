@@ -227,7 +227,7 @@ class _PetProfilePageState extends State<PetProfilePage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        !widget.fromRequestPage
+                        widget.fromRequestPage
                             ? IconButton(
                                 icon: const Icon(
                                   Icons.info_outline,
@@ -275,13 +275,16 @@ class _PetProfilePageState extends State<PetProfilePage> {
                                     const EdgeInsets.symmetric(vertical: 8),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => const PetProfilePage(
-                                            fromRequestPage: true),
-                                      ),
-                                    );
+                                Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(
+    builder: (_) => PetProfilePage(
+      fromRequestPage: false,
+      serviceName: widget.serviceName,
+    ),
+  ),
+);
+
                                   },
                                   child: const Text(
                                     "Yeni hayvan eklemek / düzenlemek için\nHayvanlarım sayfasına gitmek için tıklayın",
@@ -582,7 +585,8 @@ class _PetProfilePageState extends State<PetProfilePage> {
                   context,
                   MaterialPageRoute(
                     builder: (_) =>
-                        const PetProfilePage(fromRequestPage: false),
+                         PetProfilePage(fromRequestPage: false,
+                         serviceName: widget.serviceName,),
                   ),
                 ).then((_) {
                   _loadPets();
