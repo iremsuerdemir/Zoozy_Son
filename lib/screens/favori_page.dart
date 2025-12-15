@@ -6,6 +6,8 @@ import 'package:zoozy/models/favori_item.dart';
 import 'explore_screen.dart';
 import 'moments_screen.dart';
 import '../components/bottom_navigation_bar.dart'; // CustomBottomNavBar importu
+import 'backers_list_screen.dart'; // BackerLists dosya yoluna göre düzenle
+
 
 class FavoriPage extends StatefulWidget {
   final String favoriTipi; // "explore", "moments", "caregiver"
@@ -290,13 +292,14 @@ class _FavoriPageState extends State<FavoriPage> {
                     ),
                   );
                 } else if (widget.favoriTipi == 'caregiver') {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ExploreScreen(),
-                    ),
-                  );
-                }
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) =>  BackersListScreen(),
+    ),
+  );
+}
+
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

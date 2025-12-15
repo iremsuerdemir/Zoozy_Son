@@ -6,7 +6,8 @@ import 'package:zoozy/screens/my_cities_page.dart';
 
 class ServiceDatePage extends StatefulWidget {
   final String petName;
-  const ServiceDatePage({super.key, required this.petName});
+  final String serviceName;
+  const ServiceDatePage({super.key, required this.petName, required this.serviceName});
 
   @override
   State<ServiceDatePage> createState() => _ServiceDatePageState();

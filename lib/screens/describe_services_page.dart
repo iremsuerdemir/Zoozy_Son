@@ -2,8 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoozy/providers/service_provider.dart';
-import 'package:zoozy/screens/add_service_rate_page.dart';
-import 'package:zoozy/screens/services_rates.dart'; // Bu import'un ServiceRatesPage'i içerdiğini varsayıyoruz
+import 'package:zoozy/screens/add_location.dart';
 
 class DescribeServicesPage extends StatefulWidget {
   const DescribeServicesPage({super.key});
@@ -456,8 +455,8 @@ class _DescribeServicesPageState extends State<DescribeServicesPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => ServiceRatesPage(
-                                    initialServiceName: _hizmetAdi),
+                                builder: (_) => AddLocation(
+                                   ),
                               ),
                             );
                           }

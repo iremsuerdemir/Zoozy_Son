@@ -31,17 +31,16 @@ class RequestItem {
         'note': note,
         'location': location,
       };
-
-  factory RequestItem.fromJson(Map<String, dynamic> json) => RequestItem(
-        petName: json['petName'],
-        serviceName: json['serviceName'],
-        userPhoto: json['userPhoto'],
-        startDate: DateTime.parse(json['startDate']),
-        endDate: DateTime.parse(json['endDate']),
-        dayDiff: json['dayDiff'],
-        note: json['note'] ?? '',
-        location: json['location'] ?? '',
-      );
+factory RequestItem.fromJson(Map<String, dynamic> json) => RequestItem(
+  petName: json['petName'] ?? '',
+  serviceName: json['serviceName'] ?? '', // ⭐ KRİTİK
+  userPhoto: json['userPhoto'] ?? '',
+  startDate: DateTime.parse(json['startDate']),
+  endDate: DateTime.parse(json['endDate']),
+  dayDiff: json['dayDiff'] ?? 0,
+  note: json['note'] ?? '',
+  location: json['location'] ?? '',
+);
 
   static String encode(List<RequestItem> items) =>
       json.encode(items.map((e) => e.toJson()).toList());

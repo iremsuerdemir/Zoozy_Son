@@ -1,15 +1,17 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:zoozy/components/bottom_navigation_bar.dart';
-import 'package:zoozy/screens/indexbox_message.dart';
-import 'package:zoozy/screens/profile_screen.dart';
-import 'package:zoozy/screens/help_center_page.dart';
-import 'package:zoozy/screens/my_pets_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../models/request_item.dart';
 import 'package:intl/intl.dart';
-import 'package:zoozy/services/guest_access_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoozy/components/bottom_navigation_bar.dart';
+import 'package:zoozy/screens/help_center_page.dart';
+import 'package:zoozy/screens/indexbox_message.dart';
+import 'package:zoozy/screens/pet_profile_page.dart';
 import 'package:zoozy/screens/pet_walk_page.dart';
+import 'package:zoozy/screens/profile_screen.dart';
+import 'package:zoozy/services/guest_access_service.dart';
+
+import '../models/request_item.dart';
 
 class RequestsScreen extends StatefulWidget {
   const RequestsScreen({super.key});
@@ -204,9 +206,9 @@ class _RequestsScreenState extends State<RequestsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyPetsPage(),
-                  settings: RouteSettings(
-                    arguments: {'serviceName': 'Pansiyon'},
+                  builder: (_) => const PetProfilePage(
+                    fromRequestPage: true,
+                    serviceName: "Pansiyon",
                   ),
                 ),
               );
@@ -215,9 +217,9 @@ class _RequestsScreenState extends State<RequestsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyPetsPage(),
-                  settings: RouteSettings(
-                    arguments: {'serviceName': 'Gündüz Bakımı'},
+                  builder: (_) => const PetProfilePage(
+                    fromRequestPage: true,
+                    serviceName: "Gündüz Bakımı",
                   ),
                 ),
               );
@@ -226,9 +228,9 @@ class _RequestsScreenState extends State<RequestsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyPetsPage(),
-                  settings: RouteSettings(
-                    arguments: {'serviceName': 'Evde Bakım'},
+                  builder: (_) => const PetProfilePage(
+                    fromRequestPage: true,
+                    serviceName: "Evde Bakım",
                   ),
                 ),
               );
@@ -237,20 +239,21 @@ class _RequestsScreenState extends State<RequestsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyPetsPage(),
-                  settings: RouteSettings(
-                    arguments: {'serviceName': 'Gezdirme'},
+                  builder: (_) => const PetProfilePage(
+                    fromRequestPage: true,
+                    serviceName: "Gezdirme",
                   ),
                 ),
               );
               break;
+
             case "Taksi":
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyPetsPage(),
-                  settings: RouteSettings(
-                    arguments: {'serviceName': 'Taksi'},
+                  builder: (_) => const PetProfilePage(
+                    fromRequestPage: true,
+                    serviceName: "Taksi",
                   ),
                 ),
               );
@@ -259,25 +262,24 @@ class _RequestsScreenState extends State<RequestsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyPetsPage(),
-                  settings: RouteSettings(
-                    arguments: {'serviceName': 'Bakım'},
+                  builder: (_) => const PetProfilePage(
+                    fromRequestPage: true,
+                    serviceName: "Bakım",
                   ),
                 ),
               );
               break;
+
             case "Eğitim":
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyPetsPage(),
-                  settings: RouteSettings(
-                    arguments: {'serviceName': 'Eğitim'},
+                  builder: (_) => const PetProfilePage(
+                    fromRequestPage: true,
+                    serviceName: "Eğitim",
                   ),
                 ),
               );
-              break;
-            default:
               break;
           }
         },

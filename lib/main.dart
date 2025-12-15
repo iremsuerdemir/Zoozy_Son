@@ -11,8 +11,7 @@ import 'package:zoozy/providers/service_provider.dart';
 // Sayfalar
 import 'package:zoozy/screens/about_me_page.dart';
 import 'package:zoozy/screens/add_location.dart';
-import 'package:zoozy/screens/add_service_rate_page.dart'
-    show AddServiceRatePageFromPrefs;
+
 import 'package:zoozy/screens/board_note_page.dart';
 import 'package:zoozy/screens/caregiverProfilPage.dart';
 import 'package:zoozy/screens/describe_services_page.dart';
@@ -30,7 +29,6 @@ import 'package:zoozy/screens/profile_screen.dart';
 import 'package:zoozy/screens/reguests_screen.dart';
 import 'package:zoozy/screens/service_name_page.dart';
 import 'package:zoozy/screens/services.dart';
-import 'package:zoozy/screens/services_rates.dart';
 import 'package:zoozy/screens/session_count_page.dart';
 import 'package:zoozy/screens/settings_screen.dart';
 import 'package:zoozy/screens/upload_photo_screen.dart';
@@ -122,7 +120,7 @@ class MyApp extends StatelessWidget {
       ),
 */
       routes: {
-        '/addServiceRate': (context) => const AddServiceRatePageFromPrefs(),
+       
         '/confirmPhone': (context) => const ConfirmPhoneScreen(),
         //   Diğer sayfalar gerektiğinde buraya eklenebilir
       },

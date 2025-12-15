@@ -1,7 +1,10 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoozy/components/bottom_navigation_bar.dart';
+import 'package:zoozy/providers/service_provider.dart';
 import 'package:zoozy/screens/agreement_screen.dart';
 import 'package:zoozy/screens/edit_profile.dart';
 import 'package:zoozy/screens/favori_page.dart';
@@ -9,11 +12,10 @@ import 'package:zoozy/screens/help_center_page.dart';
 import 'package:zoozy/screens/indexbox_message.dart';
 import 'package:zoozy/screens/listing_process_screen.dart';
 import 'package:zoozy/screens/my_badgets_screen.dart';
+import 'package:zoozy/screens/pet_profile_page.dart';
 import 'package:zoozy/screens/qr_code_screen.dart';
 import 'package:zoozy/screens/settings_screen.dart';
 import 'package:zoozy/services/guest_access_service.dart';
-import 'package:provider/provider.dart';
-import 'package:zoozy/providers/service_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -367,7 +369,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           );
                         }),
-                        buildMenuButton(Icons.pets, 'Evcil Hayvanlarım', () {}),
+                        buildMenuButton(Icons.pets, 'Evcil Hayvanlarım', () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PetProfilePage(),
+                            ),
+                          );
+                        }),
                         buildMenuButton(Icons.military_tech, 'Rozetlerim', () {
                           Navigator.push(
                             context,
