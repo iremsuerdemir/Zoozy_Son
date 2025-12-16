@@ -1,13 +1,19 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:zoozy/screens/my_cities_page.dart';
 
 class ServiceDatePage extends StatefulWidget {
   final String petName;
   final String serviceName;
-  const ServiceDatePage({super.key, required this.petName, required this.serviceName});
+
+  const ServiceDatePage({
+    super.key,
+    required this.petName,
+    required this.serviceName,
+  });
 
   @override
   State<ServiceDatePage> createState() => _ServiceDatePageState();
@@ -27,18 +33,16 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
     initializeDateFormatting('tr_TR', null);
   }
 
+  // ✅ DÜZELTİLMİŞ VE TEK _onNext
   void _onNext() {
     if (_isStartSelected) {
       if (_startDate != null && _startTime != null) {
         setState(() {
-          _isStartSelected = false; // Bitiş seçimine geç
+          _isStartSelected = false; // bitiş seçimine geç
         });
       }
     } else {
       if (_endDate != null && _endTime != null) {
-        // Hem başlangıç hem bitiş alındı → MyCitiesPage sayfasına git
-        final args =
-            ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -46,7 +50,7 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
             settings: RouteSettings(
               arguments: {
                 'petName': widget.petName,
-                'serviceName': args?['serviceName'] ?? '',
+                'serviceName': widget.serviceName, // ⭐ DOĞRU
                 'startDate': _startDate,
                 'startTime': _startTime,
                 'endDate': _endDate,
@@ -65,9 +69,7 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
       locale: const Locale('tr', 'TR'),
       initialDate:
           _isStartSelected ? DateTime.now() : (_startDate ?? DateTime.now()),
-      firstDate: _isStartSelected
-          ? DateTime.now()
-          : _startDate!, // ❗ Bitiş tarihi en erken başlangıç tarihi olmalı
+      firstDate: _isStartSelected ? DateTime.now() : _startDate!,
       lastDate: DateTime(2100),
       builder: (context, child) {
         return Theme(
@@ -112,7 +114,6 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
 
     if (picked == null) return;
 
-    // ❗ Aynı gün kontrolü
     if (!_isStartSelected &&
         _startDate != null &&
         _endDate != null &&
@@ -122,12 +123,12 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
       final startMinutes = _startTime!.hour * 60 + _startTime!.minute;
       final endMinutes = picked.hour * 60 + picked.minute;
 
-      // ❗ En az 1 saat sonrası olmalı
       if (endMinutes < startMinutes + 60) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-                "Aynı gün için bitiş saati, başlangıç saatinden en az 1 saat sonra olmalıdır."),
+              "Aynı gün için bitiş saati, başlangıç saatinden en az 1 saat sonra olmalıdır.",
+            ),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -150,7 +151,7 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
         ? (_startDate != null && _startTime != null)
         : (_endDate != null && _endTime != null);
 
-    String title = _isStartSelected
+    final String title = _isStartSelected
         ? 'Hizmet başlangıç tarihini ve saatini seçiniz.'
         : 'Hizmet bitiş tarihini ve saatini seçiniz.';
 
@@ -169,7 +170,6 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
           SafeArea(
             child: Column(
               children: [
-                // Üst bar
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -197,7 +197,6 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Kart
                 Expanded(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -219,7 +218,6 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
                             ],
                           ),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 24),
                               GestureDetector(
@@ -310,13 +308,6 @@ class _ServiceDatePageState extends State<ServiceDatePage> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.withOpacity(0.3), width: 2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
