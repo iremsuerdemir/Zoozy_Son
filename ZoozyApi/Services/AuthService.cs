@@ -98,68 +98,82 @@ namespace ZoozyApi.Services
         /// <summary>
         /// Email ve şifre ile login
         /// </summary>
-        public async Task<AuthResponse> LoginAsync(LoginRequest request)
+ public async Task<AuthResponse> LoginAsync(LoginRequest request)
+{
+    try
+    {
+        if (string.IsNullOrWhiteSpace(request.Email) ||
+            string.IsNullOrWhiteSpace(request.Password))
         {
-            try
+            return new AuthResponse
             {
-                if (string.IsNullOrWhiteSpace(request.Email) || 
-                    string.IsNullOrWhiteSpace(request.Password))
-                {
-                    return new AuthResponse 
-                    { 
-                        Success = false, 
-                        Message = "Email ve şifre gereklidir." 
-                    };
-                }
-
-                var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email.ToLower() == request.Email.ToLower() && 
-                                              u.Provider == "local");
-
-                if (user == null || !user.IsActive)
-                {
-                    return new AuthResponse 
-                    { 
-                        Success = false, 
-                        Message = "Email veya şifre yanlış." 
-                    };
-                }
-
-                // Şifre doğrula (BCrypt) - trim et ve doğrula
-                bool isValidPassword = BCrypt.Net.BCrypt.Verify(request.Password.Trim(), user.PasswordHash ?? "");
-
-                if (!isValidPassword)
-                {
-                    return new AuthResponse 
-                    { 
-                        Success = false, 
-                        Message = "Email veya şifre yanlış." 
-                    };
-                }
-
-                user.UpdatedAt = DateTime.UtcNow;
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation($"Başarılı login: {user.Email}");
-
-                return new AuthResponse
-                {
-                    Success = true,
-                    Message = "Login başarılı!",
-                    User = MapUserToDto(user)
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Login hatası: {ex.Message}");
-                return new AuthResponse 
-                { 
-                    Success = false, 
-                    Message = "Login işlemi sırasında hata oluştu." 
-                };
-            }
+                Success = false,
+                Message = "Email ve şifre gereklidir."
+            };
         }
+
+        // 🔍 Email ile kullanıcıyı BUL (provider ayırmadan)
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == request.Email.ToLower());
+
+        if (user == null || !user.IsActive)
+        {
+            return new AuthResponse
+            {
+                Success = false,
+                Message = "Email veya şifre yanlış."
+            };
+        }
+
+        // 🔴 GOOGLE KULLANICI KONTROLÜ
+        if (user.Provider == "google")
+        {
+            return new AuthResponse
+            {
+                Success = false,
+                Message = "Bu email Google ile kayıtlı. Email/şifre ile giriş yapamazsınız."
+            };
+        }
+
+        // 🔐 Şifre doğrula (local kullanıcı)
+        bool isValidPassword = BCrypt.Net.BCrypt.Verify(
+            request.Password.Trim(),
+            user.PasswordHash ?? ""
+        );
+
+        if (!isValidPassword)
+        {
+            return new AuthResponse
+            {
+                Success = false,
+                Message = "Email veya şifre yanlış."
+            };
+        }
+
+        user.UpdatedAt = DateTime.UtcNow;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        _logger.LogInformation($"Başarılı login: {user.Email}");
+
+        return new AuthResponse
+        {
+            Success = true,
+            Message = "Login başarılı!",
+            User = MapUserToDto(user)
+        };
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError($"Login hatası: {ex.Message}");
+        return new AuthResponse
+        {
+            Success = false,
+            Message = "Login işlemi sırasında hata oluştu."
+        };
+    }
+}
+
 
         /// <summary>
         /// Google Firebase UID ile login/register

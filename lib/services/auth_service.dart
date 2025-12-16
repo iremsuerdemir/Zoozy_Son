@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 
 class AuthService {
   /// Backend API base URL
@@ -189,9 +189,28 @@ class AuthService {
   /// ==========================================
   /// 4. ŞİFRE SIFLAMA (Firebase)
   /// ==========================================
-  Future<void> resetPassword(String email) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email.trim());
+Future<AuthResponse> resetPassword(String email) async {
+  try {
+    final response = await httpClient.post(
+      Uri.parse('$baseUrl/reset-password'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email.trim()}),
+    );
+
+    final data = jsonDecode(response.body);
+
+    return AuthResponse(
+      success: data['success'],
+      message: data['message'],
+    );
+  } catch (e) {
+    return AuthResponse(
+      success: false,
+      message: 'Ağ hatası: ${e.toString()}',
+    );
   }
+}
+
 
   /// ==========================================
   /// 5. KULLANICI BİLGİLERİNİ AL (ID ile)
